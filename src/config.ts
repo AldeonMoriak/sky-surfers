@@ -4,6 +4,9 @@ export default {
   type: Phaser.AUTO,
   parent: "game",
   backgroundColor: "#33A5E7",
+  input: {
+    gamepad: true
+  },
   scale: {
     width: 800,
     height: 600,
@@ -14,7 +17,7 @@ export default {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: true
-    }
-  }
+      debug: false
+    },
+  },
 };

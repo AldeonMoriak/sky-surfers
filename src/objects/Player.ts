@@ -86,6 +86,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this._ship.flipX = axisH > 0;
       }
     }
+    if (this._ship.body.velocity.x || this._ship.body.velocity.y) {
+      const angle = this._ship.body.angle;
+      console.log(angle)
+      this._ship.setRotation(Math.PI / 2 + angle);
+    }
   }
 
   private setShipVelocity(x: number, y: number): void {
@@ -98,8 +103,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.redrawLifebar();
     } else {
       this._health = 0;
-      this._ship.setVisible(false)
-      this._ship.setActive(false)
+      this._ship.setVisible(false);
+      this._ship.setActive(false);
       // this.scene.scene.start("MenuScene");
     }
   }

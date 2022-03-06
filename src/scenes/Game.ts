@@ -10,6 +10,8 @@ export const gameObjects = {
 export default class Game extends Phaser.Scene {
   private _player!: Player;
   private _enemy1!: Enemy1;
+  private _enemies!: Phaser.GameObjects.Group;
+  private _spawnStep!: number;
   constructor() {
     super("GameScene");
   }
@@ -22,13 +24,23 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this._player = new Player(this, 400, 470);
-      this._enemy1 = new Enemy1(this, 100, 270);
+    this._enemies = this.add.group({});
+    this._spawnStep = 0;
   }
 
   update(time: number, delta: number): void {
     this._player.update(time, delta);
-    if (time % 3000 < 100) {
-      this._enemy1.update(time, delta);
+    this.spawnEnemy(time);
+    this._enemies.children.each((enemy: Phaser.GameObjects.GameObject) => {
+      (enemy as Enemy1).update(time, delta);
+    });
+  }
+
+  spawnEnemy(time: number, type?: string) {
+    if (time > this._spawnStep) {
+      const enemy = new Enemy1(this, window.innerWidth / 2, -10, time);
+      this._enemies.add(enemy);
+      this._spawnStep = time + 1000;
     }
   }
 }
